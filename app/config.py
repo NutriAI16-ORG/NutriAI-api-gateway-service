@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     ADMIN_SERVICE_URL: str = "http://localhost:8007"
 
     # Database (for health check only)
-    DATABASE_URL: str = "postgresql://nutriai_user@localhost:5432/nutriai"
+    DATABASE_URL: str = "sqlite:///./test.db"
 
     class Config:
         env_file = ".env"
