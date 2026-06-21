@@ -126,7 +126,7 @@ async def health_all(request: Request):
                 services[name] = resp.json()
             else:
                 services[name] = {"status": "unhealthy", "error": f"HTTP {resp.status_code}"}
-        except Exception as e:
+        except (httpx.ConnectError, httpx.TimeoutException, httpx.HTTPStatusError) as e:
             services[name] = {"status": "unreachable", "error": str(e)}
 
     overall = "healthy" if all(
