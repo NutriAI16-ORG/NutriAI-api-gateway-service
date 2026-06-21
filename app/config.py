@@ -8,7 +8,7 @@ from functools import lru_cache
 
 class Settings(BaseSettings):
     APP_NAME: str = "NutriAI API Gateway"
-    SECRET_KEY: str = "change-this-secret-key-in-production"
+    SECRET_KEY: str = "change-this-secret-key-in-production-32b"
     ALGORITHM: str = "HS256"
 
     # Downstream service URLs
@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     ADMIN_SERVICE_URL: str = "http://localhost:8007"
 
     # Database (for health check only)
-    DATABASE_URL: str = "postgresql://nutriai_user:nutriai_password@localhost:5432/nutriai"
+    DATABASE_URL: str = "postgresql://nutriai_user@localhost:5432/nutriai"
 
     class Config:
         env_file = ".env"
