@@ -5,7 +5,7 @@ to downstream microservices with X-User-ID and X-User-Role headers.
 """
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from contextlib import asynccontextmanager
 
 import httpx
@@ -96,7 +96,7 @@ async def health_check():
     return {
         "service": "api-gateway",
         "status": "healthy",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
 
@@ -106,7 +106,7 @@ async def health_all(request: Request):
     """Aggregate health checks from all downstream services."""
     client: httpx.AsyncClient = request.app.state.http_client
     services = {
-        "api-gateway": {"status": "healthy", "timestamp": datetime.utcnow().isoformat()},
+        "api-gateway": {"status": "healthy", "timestamp": datetime.now(timezone.utc).isoformat()},
     }
 
     service_urls = {
