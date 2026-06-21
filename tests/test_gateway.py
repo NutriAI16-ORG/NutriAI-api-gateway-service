@@ -178,3 +178,8 @@ async def test_proxy_timeout(client):
 
     response = client.get("/documents/list")
     assert response.status_code == 504
+
+def test_proxy_api_root(client):
+    response = client.get("/api")
+    assert response.status_code == 404
+
