@@ -67,7 +67,7 @@ ROUTE_MAP = {
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("API Gateway starting...")
-    app.state.http_client = httpx.AsyncClient(timeout=httpx.Timeout(60.0, connect=10.0))
+    app.state.http_client = httpx.AsyncClient(timeout=httpx.Timeout(300.0, connect=10.0))
     yield
     await app.state.http_client.aclose()
     logger.info("API Gateway shutting down...")
