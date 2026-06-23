@@ -17,7 +17,7 @@ def test_is_public_path():
 
 def test_decode_jwt_success():
     payload = {"sub": "12345", "role": "patient"}
-    token = jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    token = jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm=settings.ALGORITHM)
     decoded = decode_jwt(token)
     assert decoded["sub"] == "12345"
     assert decoded["role"] == "patient"
@@ -128,7 +128,7 @@ async def test_proxy_protected_invalid_token(client):
 @pytest.mark.asyncio
 async def test_proxy_protected_missing_sub(client):
     payload = {"role": "patient"} # missing sub
-    token = jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    token = jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm=settings.ALGORITHM)
     client.cookies.set("access_token", token)
     response = client.get("/documents/list")
     assert response.status_code == 401
@@ -143,7 +143,7 @@ async def test_proxy_protected_success(client):
     app.state.http_client.request = AsyncMock(return_value=mock_response)
 
     payload = {"sub": "user-123", "role": "patient"}
-    token = jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    token = jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm=settings.ALGORITHM)
     client.cookies.set("access_token", token)
 
     response = client.get("/api/documents/list?query=1")
@@ -161,7 +161,7 @@ async def test_proxy_unreachable(client):
     app.state.http_client.request = AsyncMock(side_effect=httpx.ConnectError("Unreachable"))
 
     payload = {"sub": "user-123", "role": "patient"}
-    token = jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    token = jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm=settings.ALGORITHM)
     client.cookies.set("access_token", token)
 
     response = client.get("/documents/list")
@@ -173,7 +173,7 @@ async def test_proxy_timeout(client):
     app.state.http_client.request = AsyncMock(side_effect=httpx.TimeoutException("Timeout"))
 
     payload = {"sub": "user-123", "role": "patient"}
-    token = jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    token = jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm=settings.ALGORITHM)
     client.cookies.set("access_token", token)
 
     response = client.get("/documents/list")

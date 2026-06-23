@@ -45,7 +45,7 @@ def is_public_path(path: str) -> bool:
 def decode_jwt(token: str) -> dict:
     """Decode and validate a JWT token. Returns payload or raises."""
     try:
-        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[settings.ALGORITHM])
         return payload
     except JWTError as e:
         logger.warning(f"JWT decode failed: {e}")

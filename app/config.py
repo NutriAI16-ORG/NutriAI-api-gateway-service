@@ -8,7 +8,7 @@ from functools import lru_cache
 
 class Settings(BaseSettings):
     APP_NAME: str = "NutriAI API Gateway"
-    SECRET_KEY: str = "change-this-secret-key-in-production-32b"
+    JWT_SECRET_KEY: str = "change-this-secret-key-in-production-32b"
     ALGORITHM: str = "HS256"
 
     # Downstream service URLs
